@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MVCTestApp.Models
+namespace MVCTestApp.Controllers
 {
     public class ExternalLoginConfirmationViewModel
     {

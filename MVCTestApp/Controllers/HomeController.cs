@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCTestApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,16 @@ namespace MVCTestApp.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Chart()
+        {
+            ViewBag.Message = "Your Chart page.";
+
+            var jsonproxy = new JsonProxyClient();
+            Results resultdata = jsonproxy.GetData("http://ramorak.com/demo/assess.json");
+
+            return View(resultdata);
         }
     }
 }

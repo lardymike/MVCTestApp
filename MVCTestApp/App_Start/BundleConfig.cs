@@ -26,6 +26,9 @@ namespace MVCTestApp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/site").Include(
+                      "~/Scripts/Chart.js"));
         }
     }
 }
