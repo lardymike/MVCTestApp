@@ -8,7 +8,7 @@ namespace MVCTestApp.Models
   public class RawData
   {
     public string Subject { get; set; }
-    public Hashtable Score { get; set; }
+    public Dictionary<string, double> Score { get; set; }
   }
 
   public class Results : List<RawData>

@@ -1,29 +1,62 @@
-﻿using MVCTestApp.Models;
+﻿using Chart.Mvc.ComplexChart;
+using MVCTestApp.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
+using System.Linq;
 
 namespace MVCTestApp.Controllers
 {
   public class JsonProxyClient
   {
-    public Results GetData(String url) {
+    public string URL { get; private set; }
+    public Results RawData {get; private set;}
+    public ChartData ParsedData {get; private set;}
+
+    //Private constructor
+    private JsonProxyClient(string ApiURL)
+    {
+      URL = ApiURL;
 
       var client = new WebClient();
-      var data = client.DownloadString(url);
+      var data = client.DownloadString(URL);
 
-      Results rawdata = JsonConvert.DeserializeObject<Results>(data);
-      
-      return rawdata;
+      this.RawData = JsonConvert.DeserializeObject<Results>(data);
+
+      List<string> labels = new List<string>();
+      List<ComplexDataset> datasets = new List<ComplexDataset>();
+
+      foreach (string key in this.RawData[0].Score.Keys)
+      {
+        labels.Add(key);
+      }
+
+      foreach (RawData element in this.RawData)
+      {
+        datasets.Add(new ComplexDataset
+        {
+          Data = element.Score.Values.ToList<double>(),
+          Label = element.Subject,
+          FillColor = "",
+          StrokeColor = "",
+          PointColor = "",
+          PointStrokeColor = "",
+          PointHighlightFill = "",
+          PointHighlightStroke = "",
+        });
+      }
+
+      this.ParsedData = new ChartData();
+      this.ParsedData.Labels = labels.ToArray();
+      this.ParsedData.Datasets = datasets.ToArray();
     }
 
-    public ChartData GetChartData(Results rawdata)
+    //Public factory
+    public static JsonProxyClient CreateJsonProxy(string URL)
     {
-      ChartData chartdata = new ChartData();
-
-      chartdata.Labels = rawdata[0].Score.Keys;
-
-      return chartdata cd;
+      return new JsonProxyClient(URL);
     }
   }
 }

@@ -1,8 +1,10 @@
-﻿@{
+﻿@model MVCTestApp.Models.ChartData
+
+@{
   const string Canvas = "BarChart";
   var complexChart = new BarChart();
-  complexChart.ComplexData.Labels.AddRange(FakeComplexChartData.Labels);
-  complexChart.ComplexData.Datasets.AddRange(FakeComplexChartData.Datasets);
+  complexChart.ComplexData.Labels.AddRange(Model.Labels);
+  complexChart.ComplexData.Datasets.AddRange(Model.Datasets);
 }
 <h3>@Canvas</h3>
 <canvas id="@Canvas" width="400" height="400"></canvas>

@@ -11,31 +11,12 @@ namespace MVCTestApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
+          ViewBag.Message = "Charting some data.";
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+          var jsonproxy = JsonProxyClient.CreateJsonProxy("http://ramorak.com/demo/assess.json");
+          ChartData resultdata = jsonproxy.ParsedData;
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Chart()
-        {
-            ViewBag.Message = "Your Chart page.";
-
-            var jsonproxy = new JsonProxyClient();
-            Results resultdata = jsonproxy.GetData("http://ramorak.com/demo/assess.json");
-
-            return View(resultdata);
+          return View(resultdata);
         }
     }
 }
